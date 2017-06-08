@@ -35,3 +35,16 @@ function displaySettingsNavigate(menu) {
   }
   selectorSettingsOptions(menu);
 }
+
+function restoreTextPositionAfterPlayState(){
+  if(playState.player){
+    var iterator = 0;
+    menuState.menuText.map((text) => {
+      text.x = Object.values(getTextPositionAfterplayState())[iterator].x;
+      text.y = Object.values(getTextPositionAfterplayState())[iterator].y;
+      iterator++;
+    });
+      menuState.startLabel.x = 600;
+      menuState.startLabel.y = 620;
+  }
+}

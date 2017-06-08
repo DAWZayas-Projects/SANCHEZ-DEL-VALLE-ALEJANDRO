@@ -1,10 +1,8 @@
 
-
 function createWorld() {
-  map = game.add.tilemap('MyTilemap');
+  map = game.add.tilemap('theWorld');
   addTileSet(map);
   addLayers(map)
-  addCollision();
   return map;
 }
 
@@ -18,7 +16,7 @@ function addTileSet(map){
 function addLayers(map){
   Object.values(getLayers()).map( (layer) => {
     newLayer = map.createLayer(layer.name);
-    if(layer.name == 'background')resize(newLayer);
+    if(layer.name == 'structures')resize(newLayer);
   });
 }
 
@@ -27,5 +25,5 @@ function resize(background){
 }
 
 function addCollision(){
-  game.physics.p2.convertCollisionObjects(map, "collisionObject");
+ return   game.physics.p2.convertCollisionObjects(playState.world,"collision");
 }

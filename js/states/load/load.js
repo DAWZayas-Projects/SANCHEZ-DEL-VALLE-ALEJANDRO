@@ -15,13 +15,11 @@ var loadState = {
     game.load.audio('MainTitle', 'assets/audio/ost/Descent.mp3');
 
     //play Assets
-    game.load.image('background', 'assets/images/background.png');
-    game.load.image('structures', 'assets/images/structures.png');
-    game.load.image('tiles', 'assets/images/structures.png');
-    game.load.image('decorations', 'assets/images/decorations2.png');
+    game.load.atlas('enemy', 'assets/images/enemy.png', 'assets/atlas/enemy_atlas.json');
     game.load.atlas('player', 'assets/images/player.png', 'assets/atlas/player_atlas.json');
 
-    game.load.tilemap('MyTilemap', 'assets/atlas/myMap.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('theWorld', 'assets/atlas/theWorld.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('structures', 'assets/images/worldProyect.png');
 
   },
 create: function() {

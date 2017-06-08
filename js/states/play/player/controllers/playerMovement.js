@@ -13,8 +13,8 @@ function playerMovementAction(play){
 
 function playerMovements(){
   play = playState;
-  if(play.cursors.left.isDown) play.player.body.velocity.x = -300;
-  else if (play.cursors.right.isDown) play.player.body.velocity.x = 300;
+  if(play.cursors.left.isDown) play.player.body.velocity.x = -600;
+  else if (play.cursors.right.isDown) play.player.body.velocity.x = 600;
 	else play.player.body.velocity.x = 0;
   jumpMovement(play);
 }
@@ -26,8 +26,8 @@ function  jumpMovement(play){
 }
 
 function jump(play){
-  play.player.body.velocity.y = -800;
-  play.timersPlayer.jump = play.time.now + 750;
+  play.player.body.velocity.y = -1000;
+  play.timersPlayer.jump = play.time.now + 50;
 }
 
 function setLastKey() {

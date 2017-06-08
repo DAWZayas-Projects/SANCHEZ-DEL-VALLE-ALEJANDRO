@@ -18,6 +18,7 @@ var menuState = {
     this.startLabel = addStartLabel();
     this.selector.onDown.addOnce(startMenuText, this);
     BackgroundTweens();
+    restoreTextPositionAfterPlayState();
   },
 
   update:function(){

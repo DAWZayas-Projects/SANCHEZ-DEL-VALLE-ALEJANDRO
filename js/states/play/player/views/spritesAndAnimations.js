@@ -3,12 +3,11 @@ function addPlayer() {
   player = addSpritePlayer();
   addPhysicsPlayer(player);
   addAnimationsPlayer(player);
-  console.log(player);
   return player;
 }
 
 function addSpritePlayer(){
-  player = game.add.sprite(300, 300, 'player');
+  player = game.add.sprite(120, 1600, 'player');
   player.scale.set(0.5, 0.5);
   return player;
 }

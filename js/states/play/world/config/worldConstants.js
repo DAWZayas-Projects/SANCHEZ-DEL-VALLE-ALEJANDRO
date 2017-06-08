@@ -1,19 +1,13 @@
 
 function getTileSet(){
   return {
-    background: { name: 'background', origin: 'background' },
-    structures: { name: 'structures', origin: 'tiles' },
-    decorations: { name: 'decorations2', origin: 'decorations' }
+    structures: { name: 'worldProyect', origin: 'structures' },
   };
 }
 
 function getLayers(){
   return {
-    background: { name: 'background' },
-    structures: { name: 'structures' },
-    structures2: { name: 'structures2' },
-    structures3: { name: 'structures3' },
-    decorations: { name: 'decorations' }
+    structures: { name: 'structures' }
   };
 }
 

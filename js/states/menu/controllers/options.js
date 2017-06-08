@@ -1,5 +1,9 @@
 
 function startPlayState() {
+  menuState.startLabel.destroy();
+  menuState.menuText.map((text) => {
+    text.destroy();
+  });
   game.state.start('play');
 }
 
@@ -22,11 +26,13 @@ function MainMenu(menu){
 function startfullScreenOn() {
   menu.setFullScreen = "Yes"
   game.scale.startFullScreen();
+  FullScreenOption(menu);
 }
 
 function startfullScreenOff() {
-   menu.setFullScreen = "No"
+  menu.setFullScreen = "No"
   game.scale.stopFullScreen();
+  FullScreenOption(menu);
 }
 
 function toggleSoundUp() {
@@ -34,6 +40,7 @@ function toggleSoundUp() {
     menu.soundLevel ++;
     game.sound.volume += 0.1;
   }
+  soundOption(menu)
  }
 
  function toggleSoundDown() {
@@ -41,12 +48,12 @@ function toggleSoundUp() {
      menu.soundLevel --;
      game.sound.volume -=0.1;
    }
+   soundOption(menu)
  }
 
 
  function FullScreenOption(menu){
    menu.menuText.map( (text) =>{
-
      if(text.text == "Yes" || text.text == "/" || text.text == "No"){
        text.alpha = 1;
        if(text.text == menu.setFullScreen)text.fill = styleSettingsValues(true);
@@ -74,6 +81,6 @@ function toggleSoundUp() {
    });
    menu.cursors.right.onDown.remove(startfullScreenOn, this);
    menu.cursors.left.onDown.remove(startfullScreenOff, this);
-   menu.cursors.right.onDown.addOnce(toggleSoundUp, this);
-   menu.cursors.left.onDown.addOnce(toggleSoundDown, this);
+   menu.cursors.right.onDown.add(toggleSoundUp, this);
+   menu.cursors.left.onDown.add(toggleSoundDown, this);
  }
