@@ -1,9 +1,5 @@
 
-function startMenuState() {
+function unPauseAndstartMenuState() {
   menuUnpause();
   game.state.start('load');
-}
-
-function saveData(){
-  //WiP
 }

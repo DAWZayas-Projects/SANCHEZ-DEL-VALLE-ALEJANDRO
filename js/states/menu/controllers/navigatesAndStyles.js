@@ -55,11 +55,7 @@ function selectorMainOptions(menu) {
     if(menu.menuOption == 0){
       startPlayState();
     }else if(isMenuOption(menu, 1)){
-      console.log('WiP');
-    }else if(isMenuOption(menu, 2)){
       settingsOption(menu);
-    }else if(isMenuOption(menu, 3)){
-      console.log('WiP');
     }
     menu.timeMenu = menu.time.now + 200;
   }

@@ -30,7 +30,8 @@ function getTimersPlayer(){
   return {
     jump : 0,
     dash : 0,
-    attack : 0
+    attack : 0,
+    hit: 0
   };
 }
 

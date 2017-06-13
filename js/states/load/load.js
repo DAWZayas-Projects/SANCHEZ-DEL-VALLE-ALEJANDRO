@@ -17,7 +17,7 @@ var loadState = {
     //play Assets
     game.load.atlas('enemy', 'assets/images/enemy.png', 'assets/atlas/enemy_atlas.json');
     game.load.atlas('player', 'assets/images/player.png', 'assets/atlas/player_atlas.json');
-
+    game.load.image('hp', 'assets/images/hp.png');
     game.load.tilemap('theWorld', 'assets/atlas/theWorld.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('structures', 'assets/images/worldProyect.png');
 

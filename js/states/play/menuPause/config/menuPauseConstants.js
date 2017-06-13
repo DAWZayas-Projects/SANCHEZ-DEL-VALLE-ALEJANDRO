@@ -2,13 +2,12 @@
 function getMenuPauseText(){
   return {
     resume: {title: "Resume", x: 20, y: 130},
-    save: {title: "Save", x: 30, y: 100},
     exit: {title: "Exit", x: 50, y: 80}
   };
 }
 
 function getMenuPauseMax() {
-  return 2;
+  return 1;
 }
 
 function getMenuStart() {

@@ -42,9 +42,7 @@ function selectorMenuPauseOptions() {
     if(playState.menuPauseOption == 0){
       menuUnpause();
     }else if(isMenuPauseOption(1)){
-      console.log('WiP');
-    }else if(isMenuPauseOption(2)){
-      startMenuState();
+      unPauseAndstartMenuState();
     }
     playState.timeMenuPause = playState.time.now + 200;
 }

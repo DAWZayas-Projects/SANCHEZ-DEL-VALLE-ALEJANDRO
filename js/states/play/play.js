@@ -6,6 +6,8 @@ var playState = {
     this.timersPlayer = getTimersPlayer();
     this.timersEnemy = getTimersEnemy();
     this.pauseMenuButton = getPauseMenuActions();
+    this.hpPlayer = getHpPlayer();
+    this.hpEnemies = getHpEnemies();
     this.selector = spaceBar();
     this.timeMenuPause = this.time.now + 200;
     this.menuPauseOption = -1;
@@ -18,6 +20,7 @@ var playState = {
     this.collisionObject = addCollision();
     collisionPlayerWithWorld()
     this.enemies = addEnemies();
+    this.hp = addHp();
     camera();
     manualCollideAndOverlap();
 

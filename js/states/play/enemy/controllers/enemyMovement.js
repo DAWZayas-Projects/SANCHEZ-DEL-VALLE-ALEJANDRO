@@ -35,11 +35,12 @@ function enemyMovement(index){
   }
  }
 
-function canMove(index){
-  return ((playState.player.x - playState.enemies.getChildAt(index).x >= -100 && playState.player.x - playState.enemies.getChildAt(index).x <= 0)
-	|| (playState.enemies.getChildAt(index).x - playState.player.x >= -100 && playState.enemies.getChildAt(index).x - playState.player.x <= 0)) ? false : true;
-}
+ function canMove(index){
+   return ((playState.player.x - playState.enemies.getChildAt(index).x >= -100 && playState.player.x - playState.enemies.getChildAt(index).x <= 0)
+ 	|| (playState.enemies.getChildAt(index).x - playState.player.x >= -100 && playState.enemies.getChildAt(index).x - playState.player.x <= 0)) ? false : true;
+ }
 
-function isHit(index){
-return (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_right') || (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_left') ? false : true;
-}
+ function isHit(index){
+ return (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_right') || (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_left' ||
+  playState.enemies.getChildAt(index).animations.currentAnim.name === 'die') ? false : true;
+ }

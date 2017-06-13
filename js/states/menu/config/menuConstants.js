@@ -2,9 +2,7 @@
 function getMenuText(){
   return {
     newGame: {title: "New Game", x: 20, y: 220},
-    continue: {title: "Continue", x: 30, y: 170},
-    settings: {title: "Settings", x: 35, y: 120},
-    exit: {title: "Exit", x: 50, y: 70}
+    settings: {title: "Settings", x: 35, y: 160},
   };
 
 }
@@ -20,9 +18,7 @@ function getSettingsText(){
 function getTextPositionAfterplayState(){
   return {
     texto0: {x: 980, y: 480},
-    texto1: {x: 970, y: 530},
-    texto2: {x: 965, y: 580},
-    texto3: {x: 950, y: 630},
+    texto2: {x: 965, y: 540},
     texto4: {x: 970, y: 480},
     texto5: {x: 942, y: 530},
     texto6: {x: 942, y: 580},
@@ -56,7 +52,7 @@ function getMenuSettingsMax() {
 }
 
 function getMenuMainMax() {
-  return 3;
+  return 1;
 }
 
 function getMenuStart() {
