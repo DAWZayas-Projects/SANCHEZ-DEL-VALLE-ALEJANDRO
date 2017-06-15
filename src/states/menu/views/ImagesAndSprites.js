@@ -1,5 +1,18 @@
 import Phaser from 'phaser';
 
+class MenuBackground  {
+  constructor ({ game, backgroundColor, backgroundImage, logo, sprite}) {
+    this.state = game;
+    this.backgroundColor = setBackgroundColor(backgroundColor);
+    this.logo = setLogo(logo);
+    this.backgroundImage = setBackgroundImage(backgroundImage);
+    this.sprite = setSprite(sprite);
+
+  }
+
+}
+
+
 const BACKGROUND = function () { return this.stage.backgroundColor = "#0b0116" };
 
 const BackgroundPnj = function () {
@@ -49,4 +62,4 @@ const AddBackground = function () {
   FireBall;
 };
 
-export default AddBackground;
+export default MenuBackground;
