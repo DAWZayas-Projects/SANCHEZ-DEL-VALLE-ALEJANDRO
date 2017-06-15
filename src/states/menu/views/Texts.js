@@ -1,60 +1,67 @@
 import Phaser from 'phaser';
-import  { SettingsText, MenuText } from '../config/MenuConstants';
-import { Fog, DestroyFog } from '../views/ImagesAndSprites';
 
-const Menu = function () {
-  DestroyFog;
-  menuTexts = SetTexts;
-  Fog;
-  AnchorAndAlpha(menuTexts);
-  this.whatMenu = 'main';
-  return menuTexts;
-};
+class MenuText {
+  constructor ({ game, label, texts, style }) {
+    this.state = game;
+    //style of the text
+    this.style = style;
 
-export const StartMenuText = function () { AddTweenToTexts };
+    //start label
+    this.label = this.addLabel(label);
 
-const SetTexts = function () {
-  const HALF_CENTER = this.world.centerX / 2;
-  const STYLES = { font: '24px Trade Winds', fill: '#ffffff' };
-  let menuTextArray = [];
-  Object.values(MenuText).map( (text, index) => {
-    menuTextArray[index] = this.add.text(this.world.right - HALF_CENTER - text.x, this.world.height - text.y, text.title, STYLES);
-  });
-  let settingsTextArray = [];
-  let settingsValuesTextArray = [];
-  Object.values(SettingsText).map((text, index) => {
-    if(text.title != "Back")text.values.map((value, index) => {
-      settingsValuesTextArray[settingsValuesTextArray.length] = this.add.text(this.world.right - HALF_CENTER + 60 + 32*index, this.world.height - text.y, value, STYLES);
+    //menu text
+    this.texts = this.setTexts(texts);
+    this.levels = this.setLevel(texts);
+  }
+
+  setTexts(texts){
+    let phaserTexts = [];
+    texts.map( (objectTexts) => {
+      let menu = [];
+      Object.values(objectTexts).map ( (text, index) => {
+        menu[index] = this.state.add.text(text.x, text.y, text.title, this.style);
+      });
+      phaserTexts = phaserTexts.concat(menu);
     });
-    settingsTextArray[index] = this.add.text(this.world.right - HALF_CENTER - text.x, this.world.height - text.y, text.title, STYLES);
-  });
-  let settingsTextArrayfull = settingsTextArray.concat(settingsValuesTextArray);
-  return menuTextArray.concat(settingsTextArrayfull);
-};
+    return phaserTexts;
+  }
 
-const AnchorAndAlpha = function (textArray) {
-  const TRANSPARENT = 0;
-  textArray.map((text) => {
-    this.world.bringToTop(text);
-    text.anchor.setTo(0.5, 0.5);
-    text.alpha = TRANSPARENT;
-  });
-};
+  setLevel(texts){
+    let levels = {};
+    texts.map((objectTexts, index) => {
+      let key = 'level'+index;
+      let value = Object.keys(objectTexts).length;
+      levels[key] = value;
+    });
+    return levels;
+  }
 
-const TweenToTexts = function () {
-  this.menuText.map((text) => {
-   if(text.text == "New Game" || text.text == "Continue" || text.text == "Settings" || text.text == "Exit") this.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
- });
-   this.startLabel.destroy();
-};
+  setAdditionalStyle(texts){
+    const TRANSPARENT = 0;
+    this.texts.map((text) => {
+      this.state.world.bringToTop(text);
+      text.anchor.setTo(0.5, 0.5);
+      text.alpha = TRANSPARENT;
+    });
+  }
 
+  addLabel(text){ return this.state.add.text(text.x, text.y, text.text, this.style) }
 
-export const StartLabel = function () {
-  const TEXT = 'press space to start';
-  let startLabel = this.add.text(this.world.centerX, this.world.height - 80, TEXT, { font: '30px Trade Winds', fill: '#ffffff' });
-  startLabel.anchor.setTo(0.5, 0.5);
-  this.add.tween(startLabel).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
-  return startLabel;
+  addAdditionalStyleLabel(){
+    this.label.anchor.setTo(0.5, 0.5);
+    this.state.add.tween(this.label).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
+  }
+
+  ShowLevel(filterLevel){
+    levelLength = this.levels[filterLevel];
+    this.texts.map((text, index) =>{
+      if( index <= levelLength ) this.state.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
+    });
+    //destruir el label
+  }
+
+  callBackMenuText(){ ShowLevel(level0) }
+
 }
 
-export default Menu;
+export default MenuText;

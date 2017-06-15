@@ -1,13 +1,11 @@
 import Phaser from 'phaser';
-import { MENU_OPTION, SOUND_LEVEL, FULLSCREEN, TIME, WHAT_MENU } from './config/MenuConstants';
-import { SpaceBar, Cursors } from './config/KeyCodes';
+import { MENU_OPTION, SOUND_LEVEL, FULLSCREEN, TIME, WHAT_MENU, STARTLABEL, MainText, SettingsText, SettingTextOptions } from './config/MenuConstants';
+//import { SpaceBar, Cursors } from './config/KeyCodes';
 import { MainThemeMenu } from './views/Sound';
 import AddBackground from './views/ImagesAndSprites';
 import { BackgroundTweens } from './views/ImagesAndSprites';
-import MenuTexts from './views/Texts';
-import { StartLabel, StartMenuText } from './views/Texts';
+import MenuText from './views/Texts';
 import Navigate from './controllers/Main'
-import { RestoreText } from './controllers/Main';
 
 class Menu extends Phaser.State {
   init () {
@@ -22,24 +20,25 @@ class Menu extends Phaser.State {
   preload () {}
 
   create () {
-    const self = this;
     //keycodes
-    this.selector = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    this.cursors = Cursors;
-
+    //this.selector = SpaceBar;
+    //this.cursors = Cursors;
     //background
-    AddBackground;
+    //AddBackground;
 
     //texts
-    this.menuText = MenuTexts;
-    this.startLabel = StartLabel;
-    this.selector.onDown.addOnce(StartMenuText, self);
-
+    const Texts = [ MainText(), SettingsText(), SettingTextOptions()];
+    this.menuText = new  MenuText({
+      game: this,
+      label: STARTLABEL,
+      texts: Texts,
+      style: { font: '24px Trade Winds', fill: '#ffffff' }
+    });
+    this.menuText.addAdditionalStyleLabel();
+    this.menuText.setAdditionalStyle();
+    //this.selector.onDown.addOnce(StartMenuText, self);
     //animation de Background
-    BackgroundTweens;
-
-    //if came from Game
-    RestoreText;
+    //BackgroundTweens;
 
     //update
     this.update = Navigate;

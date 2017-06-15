@@ -1,6 +1,6 @@
-export const SpaceBar = function () {
-  return this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+export const SpaceBar = function (menu) {
+  return menu.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
  };
-export const Cursors = function () {
-  return this.input.keyboard.createCursorKeys();
+export const Cursors = function (menu) {
+  return menu.input.keyboard.createCursorKeys();
 };
