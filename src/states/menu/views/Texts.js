@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 class MenuText {
-  constructor ({ game, label, texts, style }) {
+  constructor ({ game, label, texts, style, defaultValue }) {
     this.state = game;
     //style of the text
     this.style = style;
@@ -12,6 +12,9 @@ class MenuText {
     //menu text
     this.texts = this.setTexts(texts);
     this.levels = this.setLevel(texts);
+
+    //default
+    if (defaultValue)this.default();
   }
 
   setTexts(texts){
@@ -61,6 +64,11 @@ class MenuText {
   }
 
   callBackMenuText(){ ShowLevel(level0) }
+
+  default(){
+    this.addAdditionalStyleLabel();
+    this.setAdditionalStyle();
+  }
 
 }
 

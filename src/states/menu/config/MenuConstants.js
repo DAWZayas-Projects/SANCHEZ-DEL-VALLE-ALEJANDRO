@@ -2,10 +2,12 @@ export const MENU_MAIN_MAX = 1;
 export const MENU_SETTINGS_MAX = 1;
 export const MENU_START = 1;
 export const MENU_OPTION = -1;
-export const WHAT_MENU = 'main';
+export const WHAT_MENU = 0;
 export const SOUND_LEVEL = '10';
 export const FULLSCREEN = 'no';
 export const STARTLABEL = { text: "Press space to start", x: 600, y: 620 };
+export const FireBall = {name: 'darkFireball', x: 292, y: 295, firstSprite: 1, lastSprite: 17, fps: 30, loop : true, animation: 'fire'};
+export const Fog = {name: 'fog', x: 0, y: -1500, height: 4, width: 1};
 export const TIME = function (menu) {
   return menu.time.now + 200;
  };
@@ -37,3 +39,7 @@ export const SettingTextOptions = () => ({
   value13 : {title: "9", x: 1379, y: 530},
   value14 : {title: "10", x: 1474, y: 530}
 });
+
+export const BackgroundImages = () => (
+  [{name: 'pnjBackground', x: -450, y: -175, height: 1.5, width: 1.15}, {name: 'logo', x: 100, y: 25, height: 1, width: 1}]
+);

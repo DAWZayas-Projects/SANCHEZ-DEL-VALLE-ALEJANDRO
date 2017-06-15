@@ -1,65 +1,75 @@
 import Phaser from 'phaser';
 
 class MenuBackground  {
-  constructor ({ game, backgroundColor, backgroundImage, logo, sprite}) {
+  constructor ({ game, backgroundColor, backgroundImage, specialBackground, sprite, defaultValue}) {
+    //state
     this.state = game;
-    this.backgroundColor = setBackgroundColor(backgroundColor);
-    this.logo = setLogo(logo);
-    this.backgroundImage = setBackgroundImage(backgroundImage);
-    this.sprite = setSprite(sprite);
 
+    //background
+    this.backgroundColor = this.setBackgroundColor(backgroundColor);
+    this.backgroundImage = this.setBackgroundImage(backgroundImage);
+
+    //specials
+    this.sprite = this.setSprite(sprite);
+    this.specialBackground = this.setSpecialBackground(specialBackground);
+
+    //default
+    if (defaultValue)this.default();
+  }
+
+  setBackgroundColor(backgroundColor){ this.state.stage.backgroundColor = backgroundColor }
+
+  setBackgroundImage(newBackgroundImage){
+    let backgroundImage = [];
+    newBackgroundImage.map( (image, index) => {
+      backgroundImage[index] = this.state.add.image(image.x, image.y, image.name );
+      backgroundImage[index].width = this.width*image.width;
+      backgroundImage[index].height = this.height*image.height;
+    });
+    return backgroundImage;
+  }
+
+  invisibleBackgroundImage(){
+    const TRANSPARENT = 0;
+    this.backgroundImage.map( (image) => {
+      image.alpha = TRANSPARENT;
+    });
+  }
+
+  setSprite(newSprite){
+    let sprite = this.state.add.sprite(newSprite.x, newSprite.y, newSprite.name);
+    sprite.animations.add(newSprite.animation, Phaser.Animation.generateFrameNames(newSprite.animation, newSprite.first, newSprite.last), newSprite.fps, newSprite.loop);
+    sprite.animations.play(newSprite.animation);
+    return sprite;
+  }
+
+  setStyleSprite(){ this.sprite.scale.set(0.3, 0.5) }
+
+  setSpecialBackground(newSpecialBackground){
+    let specialBackground = this.state.add.image(newSpecialBackground.x, newSpecialBackground.y, newSpecialBackground.name);
+    specialBackground.width = this.state.width*newSpecialBackground.width;
+    specialBackground.height = this.state.height*newSpecialBackground.height;
+    return specialBackground;
+  }
+
+  startSpecialBackground(){
+    this.specialBackground.alpha = 1;
+    this.state.add.tween(this.specialBackground).to({x: -2000}, 15000).to({x: -100}, 15000).loop().start();
+  }
+
+  backgroundTween(){
+    this.backgroundImage.map( (image) => {
+      this.state.add.tween(image).to( { alpha: 1 }, 4000, Phaser.Easing.Circular.In, true, 11000);
+    });
+  }
+
+  default(){
+    this.invisibleBackgroundImage();
+    this.setStyleSprite();
+    this.startSpecialBackground();
+    this.backgroundTween();
   }
 
 }
-
-
-const BACKGROUND = function () { return this.stage.backgroundColor = "#0b0116" };
-
-const BackgroundPnj = function () {
-  let backgroundPnj = this.add.image(-450, -175, 'pnjBackground');
-  backgroundPnj.height = this.height*1.5;
-  backgroundPnj.width = this.width*1.15;
-  backgroundPnj.alpha = 0;
-};
-
-const Logo = function () {
-  let logo = this.add.sprite(100, 25, 'logo');
-  logo.height = this.height;
-  logo.width = this.width;
-  logo.alpha = 0;
-};
-
-export const Fog = function () {
-  let fog = this.add.image(0, -1500, 'fog');
-  fog.height = this.height*4;
-  fog.alpha = 1;
-  this.add.tween(fog).to({x: -2000}, 15000).to({x: -100}, 15000).loop().start();
-};
-
-export const DestroyFog = function () {
-  this.tweens.removeAll();
-  this.add.tween(fog).to({alpha: 0}, 2500, Phaser.Easing.Linear.None, true);
-  fog.destroy();
-};
-
-const FireBall = function () {
-  let fireball = this.add.sprite(292, 295, 'darkFireball');
-  fireball.scale.set(0.3, 0.5);
-  fireball.animations.add('fire', Phaser.Animation.generateFrameNames('fire', 1, 17), 30, true);
-  fireball.animations.play('fire');
-};
-
-export const BackgroundTweens = function () {
-  this.add.tween(backgroundPnj).to( { alpha: 1 }, 4000, Phaser.Easing.Circular.In, true, 11000);
-  this.add.tween(logo).to( { alpha: 1 }, 4000, Phaser.Easing.Linear.None, true, 12000);
-};
-
-const AddBackground = function () {
-  BACKGROUND;
-  BackgroundPnj;
-  Logo;
-  Fog;
-  FireBall;
-};
 
 export default MenuBackground;
