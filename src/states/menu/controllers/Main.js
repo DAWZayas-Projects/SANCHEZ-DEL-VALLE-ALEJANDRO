@@ -33,7 +33,6 @@ class Navigate {
 
   styleOptions(){
     let levelLength = this.takeIndex();
-    console.log(levelLength);
     this.state.menuText.texts.map((text, index) =>{
       index === levelLength  ? this.state.menuText.toggleSelected(index) : this.state.menuText.toggleUnselected(index);
     });
@@ -43,7 +42,7 @@ class Navigate {
     let iterator = this.level-1;
     let index = this.option;
     while ( iterator >= 0 ){
-      index += this.levels['index'+iterator];
+      index += this.levels['level'+iterator];
       iterator--;
     }
     return index;
@@ -69,10 +68,10 @@ class Navigate {
   }
 
   OpenSettings(){
-    this.level++; 
+    this.level++;
     this.option = this.start;
-    console.log(this.level);
-    this.state.menuText.showLevel('level'+this.level, false);
+    let levelLength = this.takeIndex();
+    this.state.menuText.showLevel('level'+this.level, false, levelLength);
   }
 
 

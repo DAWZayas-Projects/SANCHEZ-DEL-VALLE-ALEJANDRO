@@ -57,15 +57,15 @@ class MenuText {
     this.state.add.tween(this.label).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
   }
 
-  showLevel(filterLevel, destroyLabel){
-    let levelLength = this.levels[filterLevel];
+  showLevel(filterLevel, destroyLabel, startlevel){
+    let levelLength = this.levels[filterLevel]+startlevel;
     this.texts.map((text, index) =>{
-      if( index < levelLength ) this.state.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
+      index < levelLength && index >= startlevel ? this.state.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true) : this.state.add.tween(text).to( { alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
     });
     if ( destroyLabel ) this.label.destroy();
   }
 
-  callBackMenuText(){ this.showLevel('level0', true) }
+  callBackMenuText(){ this.showLevel('level0', true, 0) }
 
   toggleSelected(index){ this.texts[index].fill = this.selected }
 
