@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 
 class MenuBackground  {
-  constructor ({ game, backgroundColor, backgroundImage, specialBackground, sprite, defaultValue}) {
+  constructor ({ state, backgroundColor, backgroundImage, specialBackground, sprite, defaultValue}) {
     //state
-    this.state = game;
+    this.state = state;
 
     //background
     this.backgroundColor = this.setBackgroundColor(backgroundColor);
@@ -23,8 +23,8 @@ class MenuBackground  {
     let backgroundImage = [];
     newBackgroundImage.map( (image, index) => {
       backgroundImage[index] = this.state.add.image(image.x, image.y, image.name );
-      backgroundImage[index].width = this.width*image.width;
-      backgroundImage[index].height = this.height*image.height;
+      backgroundImage[index].width = game.width*image.width;
+      backgroundImage[index].height = game.height*image.height;
     });
     return backgroundImage;
   }
@@ -47,8 +47,7 @@ class MenuBackground  {
 
   setSpecialBackground(newSpecialBackground){
     let specialBackground = this.state.add.image(newSpecialBackground.x, newSpecialBackground.y, newSpecialBackground.name);
-    specialBackground.width = this.state.width*newSpecialBackground.width;
-    specialBackground.height = this.state.height*newSpecialBackground.height;
+    specialBackground.height = game.height*newSpecialBackground.height;
     return specialBackground;
   }
 

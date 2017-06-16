@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
-import { SOUND_LEVEL, FULLSCREEN, TIME, STARTLABEL, MainText, SettingsText, SettingTextOptions, BackgroundImages, FireBall, Fog } from './config/MenuConstants';
-//import { SpaceBar, Cursors } from './config/KeyCodes';
+import { SOUND_LEVEL, FULLSCREEN, TIME, STARTLABEL, MENU_START, MENU_OPTION, MENU_LEVEL, Options,
+   MainText, SettingsText, SettingTextOptions, BackgroundImages, FireBall, Fog } from './config/MenuConstants';
+import KeyCodes from './config/KeyCodes';
 import { MainThemeMenu } from './views/Sound';
 import MenuBackground from './views/ImagesAndSprites';
 import MenuText from './views/Texts';
@@ -9,8 +10,6 @@ import Navigate from './controllers/Main'
 class Menu extends Phaser.State {
   init () {
     //config
-    let timeMenu = TIME;
-  //  let menuOption = MENU_OPTION;
     let soundLevel = SOUND_LEVEL;
     let fullScreen = FULLSCREEN;
   }
@@ -19,12 +18,11 @@ class Menu extends Phaser.State {
 
   create () {
     //keycodes
-    //this.selector = SpaceBar;
-    //this.cursors = Cursors;
+    this.keyCodes = new KeyCodes(this);
 
     //background
     this.background = new MenuBackground({
-      game: this,
+      state: this,
       backgroundColor: "#0b0116",
       backgroundImage: BackgroundImages(),
       specialBackground: Fog,
@@ -32,24 +30,34 @@ class Menu extends Phaser.State {
       defaultValue: true
     });
 
-    console.log(this.background.specialBackground);
     //texts
     const Texts = [ MainText(), SettingsText(), SettingTextOptions()];
     this.menuText = new  MenuText({
-      game: this,
+      state: this,
       label: STARTLABEL,
       texts: Texts,
       style: { font: '24px Trade Winds', fill: '#ffffff' },
+      selected: '#93051b',
+      unselected: '#ffffff',
       defaultValue: true
     });
-    //this.selector.onDown.addOnce(StartMenuText, self);
-    //animation de Background
-    //BackgroundTweens;
 
-    //update
-    this.update = Navigate;
+    this.keyCodes.selector.onDown.addOnce(this.menuText.callBackMenuText, this.menuText);
+
+    //navigate
+    this.navigate = new Navigate({
+      state: this,
+      start: MENU_START,
+      option: MENU_OPTION,
+      options: Options(),
+      menuLevel: MENU_LEVEL,
+      levels: this.menuText.levels,
+      delay: TIME
+    });
 
   }
+
+  update() { this.navigate.navigate() }
 
 }
 

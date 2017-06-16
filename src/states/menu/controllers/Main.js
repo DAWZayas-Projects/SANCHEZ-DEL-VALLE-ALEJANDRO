@@ -1,56 +1,81 @@
-import { PositionAfterPlay } from '../config/MenuConstants';
-import { DownMainMenu, UpMainMenu, DownSettingMenu, UpSettingMenu } from './NavigatesAndStyles';
-import { StyleMainOptions, StyleSettingsOptions, SelectorMainOptions, SelectorSettingsOptions } from './NavigatesAndStyles';
+class Navigate {
+  constructor ({ state, start, option, options, menuLevel, levels, delay }) {
+    this.state = state;
 
+    //config
+    this.start = start;
+    this.option = option;
+    this.levels = levels
+    this.level = menuLevel;
+    this.time = this.setDelay(delay);
+    this.delay = delay;
+  }
 
-const Navigate = function () {
-  if(this.whatMenu === 'main'){
-    DisplayMainNavigate;
-  }else if(this.whatMenu === 'settings'){
-    DisplaySettingsNavigate;
-  }
-};
+  setDelay(delay){ return this.state.time.now + delay }
 
-const DisplayMainNavigate = function () {
-  if(this.cursors.down.isDown && this.timeMenu<this.time.now){
-      this.timeMenu = this.time.now + 200;
-      DownMainMenu;
-      StyleMainOptions;
+  navigate(){
+    if(this.state.keyCodes.cursors.down.isDown && this.time<this.state.time.now){
+        this.time = this.setDelay(this.delay);
+        this.downMenu();
+        this.styleOptions();
+    }
+    if(this.state.keyCodes.cursors.up.isDown && this.time<this.state.time.now){
+        this.time = this.setDelay(this.delay);
+        this.upMenu();
+        this.styleOptions();
+    }
+    this.selectorOptions();
   }
-  if(this.cursors.up.isDown && this.timeMenu<this.time.now){
-      this.timeMenu = this.time.now + 200;
-      UpMainMenu;
-      StyleMainOptions;
-  }
-  SelectorMainOptions;
-};
 
-const DisplaySettingsNavigate = function () {
-  if(this.cursors.down.isDown && this.timeMenu<this.time.now){
-      this.timeMenu = this.time.now + 200;
-      DownSettingsMenu;
-      StyleSettingsOptions;
-  }
-  if(this.cursors.up.isDown && this.timeMenu<this.time.now){
-      this.timeMenu = this.time.now + 200;
-      UpSettingsMenu;
-      StyleSettingsOptions;
-  }
-  SelectorSettingsOptions;
-};
+  downMenu(){ this.option >= this.levels["level"+this.level]-1 ? this.option = this.start : this.option++ }
 
-export const RestoreText = function () {
-  // en el if va Game.player
-  if(false){
-    let iterator = 0;
-    this.menuText.map((text) => {
-      text.x = Object.values(PositionAfterPlay)[iterator].x;
-      text.y = Object.values(PositionAfterPlay)[iterator].y;
-      iterator++;
+  upMenu(){ this.option <= this.start ? this.option = this.levels["level"+this.level]-1 : this.option-- }
+
+  styleOptions(){
+    let levelLength = this.takeIndex();
+    console.log(levelLength);
+    this.state.menuText.texts.map((text, index) =>{
+      index === levelLength  ? this.state.menuText.toggleSelected(index) : this.state.menuText.toggleUnselected(index);
     });
-    this.startLabel.x = 600;
-    this.startLabel.y = 620;
   }
-};
+
+  takeIndex(){
+    let iterator = this.level-1;
+    let index = this.option;
+    while ( iterator >= 0 ){
+      index += this.levels['index'+iterator];
+      iterator--;
+    }
+    return index;
+  }
+
+  selectorOptions(){
+    if (this.state.keyCodes.selector.isDown && this.time<this.state.time.now){
+      this.whatOption();
+      this.time = this.setDelay(this.delay);
+    }
+  }
+
+  whatOption(){
+    if ( this.level === 0 && this.option === 0 )this.startGame();
+    else if ( this.level === 0 && this.option === 1 )this.OpenSettings();
+  }
+
+  cheater(){}
+
+  startGame(){
+    console.log('aqui empieza el juego');
+    //this.state.start('play');
+  }
+
+  OpenSettings(){
+    this.level++; 
+    this.option = this.start;
+    console.log(this.level);
+    this.state.menuText.showLevel('level'+this.level, false);
+  }
+
+
+}
 
 export default Navigate;

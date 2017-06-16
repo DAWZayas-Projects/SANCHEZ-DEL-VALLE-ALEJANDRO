@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 
 class MenuText {
-  constructor ({ game, label, texts, style, defaultValue }) {
-    this.state = game;
+  constructor ({ state, label, texts, style, selected, unselected, defaultValue }) {
+    this.state = state;
     //style of the text
     this.style = style;
+    this.selected = selected;
+    this.unselected = unselected;
 
     //start label
     this.label = this.addLabel(label);
@@ -55,15 +57,19 @@ class MenuText {
     this.state.add.tween(this.label).to({angle: -2}, 500).to({angle: 2}, 500).loop().start();
   }
 
-  ShowLevel(filterLevel){
-    levelLength = this.levels[filterLevel];
+  showLevel(filterLevel, destroyLabel){
+    let levelLength = this.levels[filterLevel];
     this.texts.map((text, index) =>{
-      if( index <= levelLength ) this.state.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
+      if( index < levelLength ) this.state.add.tween(text).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
     });
-    //destruir el label
+    if ( destroyLabel ) this.label.destroy();
   }
 
-  callBackMenuText(){ ShowLevel(level0) }
+  callBackMenuText(){ this.showLevel('level0', true) }
+
+  toggleSelected(index){ this.texts[index].fill = this.selected }
+
+  toggleUnselected(index){ this.texts[index].fill = this.unselected }
 
   default(){
     this.addAdditionalStyleLabel();
