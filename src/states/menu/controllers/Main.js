@@ -57,23 +57,30 @@ class Navigate {
 
   whatOption(){
     if ( this.level === 0 && this.option === 0 )this.startGame();
-    else if ( this.level === 0 && this.option === 1 )this.OpenSettings();
+    else if ( this.level === 0 && this.option === 1 )this.openSettings();
+    else if ( this.level === 1 && this.option === 0 )this.openSettings();
+    else if ( this.level === 1 && this.option === 1 )this.openSettings();
+    else if ( this.level === 1 && this.option === 2 )this.openMainMenu();
   }
-
-  cheater(){}
 
   startGame(){
     console.log('aqui empieza el juego');
     //this.state.start('play');
   }
 
-  OpenSettings(){
+  openSettings(){
     this.level++;
     this.option = this.start;
     let levelLength = this.takeIndex();
     this.state.menuText.showLevel('level'+this.level, false, levelLength);
   }
 
+  openMainMenu(){
+    this.level--;
+    this.option = this.start;
+    let levelLength = this.takeIndex();
+    this.state.menuText.showLevel('level'+this.level, false, levelLength);
+  }
 
 }
 
