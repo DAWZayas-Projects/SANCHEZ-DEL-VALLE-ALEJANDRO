@@ -1,16 +1,5 @@
+export const TILEMAP = 'theWorld';
+export const COLLISION = 'collision';
 
-function getTileSet(){
-  return {
-    structures: { name: 'worldProyect', origin: 'structures' },
-  };
-}
-
-function getLayers(){
-  return {
-    structures: { name: 'structures' }
-  };
-}
-
-function addGravity(){
-  game.physics.p2.gravity.y = 1400;
-}
+export const Tileset = () =>([{ name: 'worldProyect', origin: 'structures' }]);
+export const Layers = () =>([{ name: 'structures' }]);

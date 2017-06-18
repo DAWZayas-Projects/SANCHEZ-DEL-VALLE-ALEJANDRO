@@ -1,46 +1,105 @@
+import 'pixi'
+import 'p2'
+import Phaser from 'phaser'
 
-function controlEnemy(){
-  play = playState;
-  touchingDownEnemies(play);
-}
+class EnemyMovement {
+  constructor ({ state, enemies, movement, coordenate, timers }) {
+    this.state = state;
+    this.enemies = enemies;
 
-function touchingDownEnemies(play){
-  play.enemies.children.map( (enemy) => {
-    if(touchingDown(enemy)) {
-    if(isHit(enemy.z))enemyAttackAction(enemy.z);
-      if(canMove(enemy.z))selectMovementEnemy(enemy.z);
+    //config
+    this.movement = movement;
+    this.coordenate = Object.values(coordenate);
+    this.timers = timers;
+
+  }
+
+  controlMovement(){
+    this.enemies.children.map( (enemy) => {
+      if(this.touchingDown(enemy)) {
+        if(this.isHit(enemy.z))this.enemyAttackAction(enemy.z);
+        if(this.canMove(enemy.z))this.selectMovement(enemy.z);
+      }
+    });
+  }
+
+  canMove(index){
+    return ((this.state.player.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.x - this.enemies.getChildAt(index).x <= 0)
+   || (this.enemies.getChildAt(index).x - this.state.player.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)) ? false : true;
+  }
+
+  isHit(index){
+    return (this.enemies.getChildAt(index).animations.currentAnim.name === 'hit_right') || (this.enemies.getChildAt(index).animations.currentAnim.name === 'hit_left' ||
+    this.enemies.getChildAt(index).animations.currentAnim.name === 'die') ? false : true;
+  }
+
+  //movement
+  selectMovement(index){
+    const COORDENATE = this.coordenate[index].x;
+    if(this.state.player.x - this.enemies.getChildAt(index).x >= -150 && this.state.player.x - this.enemies.getChildAt(index).x <= 0 )this.movement[index] = 'left';
+    else if(this.enemies.getChildAt(index).x - this.state.player.x >= -150 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)this.movement[index] = 'right';
+    else {
+      if((COORDENATE  + 50) - this.enemies.getChildAt(index).x <= 1 )this.movement[index] = 'left';
+      if(this.enemies.getChildAt(index).x - (COORDENATE -50) <= 1 )this.movement[index] = 'right';
     }
-  });
+    this.enemyMovement(index);
+  }
+
+  enemyMovement(index){
+    if(this.movement[index] == 'right'){
+      this.enemies.getChildAt(index).body.velocity.x = 30;
+      this.enemies.getChildAt(index).animations.play('run_right');
+    }
+    else if(this.movement[index] == 'left'){
+      this.enemies.getChildAt(index).body.velocity.x = -30;
+      this.enemies.getChildAt(index).animations.play('run_left');
+    }
+   }
+
+  //attack
+  enemyAttackAction(index) {
+   if(this.canAttack(index))this.secondAttack(index);
+  }
+
+  firstAttack(index){
+    if(this.movement[index] == 'right')this.enemies.getChildAt(index).animations.play('attack_right_first');
+    if(this.movement[index] == 'left')this.enemies.getChildAt(index).animations.play('attack_left_first');
+    this.addTimeOnAttackEnemyComplete(index);
+  }
+
+  secondAttack(index){
+    if(this.movement[index] == 'right')this.enemies.getChildAt(index).animations.play('attack_right_second');
+    if(this.movement[index] == 'left')this.enemies.getChildAt(index).animations.play('attack_left_second');
+   this.addTimeOnAttackEnemyComplete(index);
+  }
+
+  addTimeOnAttackEnemyComplete(index){
+    this.enemies.getChildAt(index).animations.currentAnim.onComplete.add(this.enemyAttackTime, this);
+  }
+
+  enemyAttackTime(){
+    this.timers.attack = this.state.time.now + 2000;
+  }
+
+  canAttack(index){
+   return ( (this.state.player.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.x - this.enemies.getChildAt(index).x <= 0)
+   || (this.enemies.getChildAt(index).x - this.state.player.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)) && this.timers.attack<= this.state.time.now
+   ? true : false;
+  }
+
+  touchingDown(someone) {
+    let yAxis = p2.vec2.fromValues(0, 1);
+    let result = false;
+      for (let i = 0; i < this.state.physics.p2.world.narrowphase.contactEquations.length; i++) {
+          let c = this.state.physics.p2.world.narrowphase.contactEquations[i];  // cycles through all the contactEquations until it finds our "someone"
+          if (c.bodyA === someone.body.data || c.bodyB === someone.body.data){
+              let d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
+              if (c.bodyA === someone.body.data) d *= -1;
+              if (d > 0.5) result = true;
+          }
+     } return result;
+   }
+
 }
 
-function selectMovementEnemy(index){
-  const COORDENATE = Object.values(getAllEnemies())[index].x;
-  if(playState.player.x - playState.enemies.getChildAt(index).x >= -150 && playState.player.x - playState.enemies.getChildAt(index).x <= 0 )playState.movementEnemy[index] = 'left';
-  else if(playState.enemies.getChildAt(index).x - playState.player.x >= -150 && playState.enemies.getChildAt(index).x - playState.player.x <= 0)playState.movementEnemy[index] = 'right';
-  else {
-    if((COORDENATE  + 50) - playState.enemies.getChildAt(index).x <= 1 )playState.movementEnemy[index] = 'left';
-    if(playState.enemies.getChildAt(index).x - (COORDENATE -50) <= 1 )playState.movementEnemy[index] = 'right';
-  }
-  enemyMovement(index);
-}
-
-function enemyMovement(index){
-  if(playState.movementEnemy[index] == 'right'){
-    playState.enemies.getChildAt(index).body.velocity.x = 30;
-    playState.enemies.getChildAt(index).animations.play('run_right');
-  }
-  else if(playState.movementEnemy[index] == 'left'){
-    playState.enemies.getChildAt(index).body.velocity.x = -30;
-    playState.enemies.getChildAt(index).animations.play('run_left');
-  }
- }
-
- function canMove(index){
-   return ((playState.player.x - playState.enemies.getChildAt(index).x >= -100 && playState.player.x - playState.enemies.getChildAt(index).x <= 0)
- 	|| (playState.enemies.getChildAt(index).x - playState.player.x >= -100 && playState.enemies.getChildAt(index).x - playState.player.x <= 0)) ? false : true;
- }
-
- function isHit(index){
- return (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_right') || (playState.enemies.getChildAt(index).animations.currentAnim.name === 'hit_left' ||
-  playState.enemies.getChildAt(index).animations.currentAnim.name === 'die') ? false : true;
- }
+export default EnemyMovement;

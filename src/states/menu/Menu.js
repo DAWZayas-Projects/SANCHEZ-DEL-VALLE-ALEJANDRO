@@ -1,19 +1,13 @@
 import Phaser from 'phaser';
-import { SOUND_LEVEL, FULLSCREEN, TIME, STARTLABEL, MENU_START, MENU_OPTION, MENU_LEVEL, Options,
-   MainText, SettingsText, SettingTextOptions, BackgroundImages, FireBall, Fog } from './config/MenuConstants';
-import KeyCodes from './config/KeyCodes';
+import { STARTLABEL, MENU_START, MENU_OPTION, MENU_LEVEL, TIME, Options, MainText, SettingsText, SettingTextOptions, BackgroundImages, FireBall, Fog } from './config/MenuConstants';
 import { MainThemeMenu } from './views/Sound';
+import KeyCodes from './config/KeyCodes';
 import MenuBackground from './views/ImagesAndSprites';
 import MenuText from './views/Texts';
 import Navigate from './controllers/Main'
 
 class Menu extends Phaser.State {
-  init () {
-    //config
-    let soundLevel = SOUND_LEVEL;
-    let fullScreen = FULLSCREEN;
-  }
-
+  init () {}
   preload () {}
 
   create () {
