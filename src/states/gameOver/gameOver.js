@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { STARTLABEL, MENU_START, MENU_OPTION, MENU_LEVEL, TIME,  GameOverText } from './config/GameOverConstants';
+import { MainThemeGameOver } from '../menu/views/Sound';
 import KeyCodes from './config/KeyCodes';
 import MenuText from '../menu/views/Texts';
 import GameOverNavigate from './controllers/Main'
@@ -12,6 +13,8 @@ class GameOver extends Phaser.State {
     //keycodes
     this.keyCodes = new KeyCodes(this);
 
+    //sound
+    this.sound = MainThemeGameOver(this);
     //background
     this.stage.backgroundColor = '#000000'
 

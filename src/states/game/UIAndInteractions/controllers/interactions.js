@@ -106,13 +106,17 @@ class Interaction {
         this.HpDown(this.hpPlayer);
         this.state.playerMovement.timers.hit = this.state.time.now + 1500;
       }else{
+        this.state.sound.stop();
         this.state.state.start('GameOver');
       }
     }
   }
 
   playerInWorld(){
-    if (!this.state.player.sprite.inWorld) { this.state.state.start('GameOver') }
+    if (!this.state.player.sprite.inWorld) {
+      this.state.sound.stop();
+       this.state.state.start('GameOver');
+      }
   }
 
   whatAnimationEnemy(body){

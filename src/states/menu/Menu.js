@@ -14,6 +14,9 @@ class Menu extends Phaser.State {
     //keycodes
     this.keyCodes = new KeyCodes(this);
 
+    //sound
+    this.sound = MainThemeMenu(this);
+
     //background
     this.background = new MenuBackground({
       state: this,

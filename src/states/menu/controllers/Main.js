@@ -68,6 +68,7 @@ class Navigate {
   }
 
   startGame(){
+    this.state.sound.stop();
     this.state.state.start('Game');
   }
 
@@ -130,7 +131,7 @@ class Navigate {
   toggleSoundUp(){
     if(this.sound < 10) {
       this.sound++;
-      this.state.sound.volume += 0.1;
+      game.sound.volume += 0.1;
     }
     this.soundOption();
   }
@@ -138,7 +139,7 @@ class Navigate {
   toggleSoundDown(){
     if(this.sound > 0) {
       this.sound --;
-      this.state.sound.volume -=0.1;
+      game.sound.volume -=0.1;
     }
     this.soundOption();
   }

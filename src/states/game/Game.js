@@ -13,6 +13,7 @@ import EnemyMovement from './enemy/controllers/EnemyMovement';
 import { EnemyAnimations, EnemyTimers, Movement, Coordenate } from './enemy/config/EnemyConstants';
 
 import MenuText from '../menu/views/Texts';
+import { MainThemeGame } from '../menu/views/Sound';
 import PauseNavigate from './menuPause/controllers/Main'
 import { TIME, MENU_START, MENU_OPTION, MENU_LEVEL, STARTLABEL, PauseText } from './menuPause/config/MenuPauseConstants'
 import { Activate, SpaceBar } from './menuPause/config/MenuPauseKeyCodes'
@@ -30,6 +31,9 @@ class Game extends Phaser.State {
     this.cursors = Cursors(this);
     this.selector = SpaceBar(this);
     this.activate = Activate(this);
+
+    //sound
+    this.sound = MainThemeGame(this);
 
     //world
     this.world = new World({

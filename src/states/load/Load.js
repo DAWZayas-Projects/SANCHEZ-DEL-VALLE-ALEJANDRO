@@ -14,6 +14,8 @@ class Load extends Phaser.State {
     this.load.atlas('darkFireball', 'assets/images/darkFireball.png', 'assets/atlas/fireball_atlas.json')
     //menu sounds
     this.load.audio('MainTitle', 'assets/audio/ost/Descent.mp3')
+    this.load.audio('InGame', 'assets/audio/ost/inGame.mp3')
+    this.load.audio('Secret_Room', 'assets/audio/ost/Secret_Room.mp3')
 
     //play Assets
     this.load.atlas('enemy', 'assets/images/enemy.png', 'assets/atlas/enemy_atlas.json')

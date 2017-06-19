@@ -62,10 +62,12 @@ class GameOverNavigate {
   }
 
   startGame() {
+    this.state.sound.stop();
     this.state.state.start('Game');
   }
 
   startMenuState() {
+    this.state.sound.stop();
     this.state.state.start('Menu');
   }
 

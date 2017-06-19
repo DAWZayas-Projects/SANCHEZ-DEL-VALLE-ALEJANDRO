@@ -88,6 +88,7 @@ class PauseNavigate {
  }
 
  unPauseAndstartMenuState() {
+   this.state.sound.stop();
    this.menuUnpause();
    this.state.state.start('Menu');
  }
