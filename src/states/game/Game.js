@@ -39,7 +39,6 @@ class Game extends Phaser.State {
       layers: Layers(),
       collision: COLLISION
     });
-
     //player
     this.player = new Player({
       state: this,
@@ -119,6 +118,9 @@ class Game extends Phaser.State {
 
     //enemy
     this.enemyMovement.controlMovement();
+
+    //die or not
+    this.interaction.playerInWorld();
   }
 
 }

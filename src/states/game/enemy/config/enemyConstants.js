@@ -7,7 +7,7 @@ export const EnemyAnimations = () => ({
   attack_left_second: {name: 'attack_left_second', firstSprite: 1, lastSprite: 22, fps:20, loop : false},
   hit_right: {name: 'hit_right', firstSprite: 1, lastSprite: 13, fps:30, loop : false},
   hit_left: {name: 'hit_left', firstSprite: 1, lastSprite: 13, fps:30, loop : false},
-  die: {name: 'die', firstSprite: 1, lastSprite: 32, fps:15, loop : false},
+  die: {name: 'die', firstSprite: 1, lastSprite: 20, fps:29, loop : false},
 });
 
 export const EnemyTimers = () => ({

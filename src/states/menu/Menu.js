@@ -43,7 +43,6 @@ class Menu extends Phaser.State {
       state: this,
       start: MENU_START,
       option: MENU_OPTION,
-      options: Options(),
       menuLevel: MENU_LEVEL,
       levels: this.menuText.levels,
       delay: TIME

@@ -28,7 +28,9 @@ class World {
     });
   }
 
-  addCollision(collision){ return this.state.physics.p2.convertCollisionObjects(this.tilemap, collision) }
+  addCollision(collision){
+    game.physics.p2.setBoundsToWorld(true, true, true, false, true);
+    return this.state.physics.p2.convertCollisionObjects(this.tilemap, collision) }
 
 
   addGravity(){ this.state.physics.p2.gravity.y = 1400 }

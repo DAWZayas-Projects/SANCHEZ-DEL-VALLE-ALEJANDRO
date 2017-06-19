@@ -26,7 +26,7 @@ class Player {
   }
 
   addPhysics(){
-    this.state.physics.p2.enable(this.sprite, true);
+    this.state.physics.p2.enable(this.sprite, false);
     this.sprite.body.setCircle(40,0,0);
     this.sprite.body.fixedRotation=true;
   }

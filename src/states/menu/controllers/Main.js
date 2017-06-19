@@ -1,5 +1,5 @@
 class Navigate {
-  constructor ({ state, start, option, options, menuLevel, levels, delay }) {
+  constructor ({ state, start, option, menuLevel, levels, delay }) {
     this.state = state;
 
     //config

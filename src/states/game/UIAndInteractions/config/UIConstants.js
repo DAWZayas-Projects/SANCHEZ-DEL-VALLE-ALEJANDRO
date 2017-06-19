@@ -6,4 +6,4 @@ export const Hearts = () => ({
 
 export const HpPlayer = 3;
 
-export const HpEnemies = () => ([3, 3, 3, 3, 3]);
+export const HpEnemies = () => ([2, 2, 2, 2, 2]);

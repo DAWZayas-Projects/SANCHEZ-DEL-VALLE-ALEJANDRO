@@ -1,20 +1,74 @@
+class GameOverNavigate {
+  constructor ({ state, start, option, menuLevel, levels, delay }) {
+    this.state = state;
 
-function GameOvernavigate() {
-  displayGameOverNavigate();
+    //config
+    this.start = start;
+    this.option = option;
+    this.levels = levels
+    this.level = menuLevel;
+    this.time = this.setDelay(delay);
+    this.delay = delay;
+
+  }
+
+  setDelay(delay){ return this.state.time.now + delay }
+
+  navigate(){
+    if(this.state.keyCodes.cursors.down.isDown && this.time<this.state.time.now){
+        this.time = this.setDelay(this.delay);
+        this.downMenu();
+        this.styleOptions();
+    }
+    if(this.state.keyCodes.cursors.up.isDown && this.time<this.state.time.now){
+        this.time = this.setDelay(this.delay);
+        this.upMenu();
+        this.styleOptions();
+    }
+    this.selectorOptions();
+  }
+
+  downMenu(){ this.option >= this.levels["level"+this.level]-1 ? this.option = this.start : this.option++ }
+
+  upMenu(){ this.option <= this.start ? this.option = this.levels["level"+this.level]-1 : this.option-- }
+
+  styleOptions(){
+    let levelLength = this.takeIndex();
+    this.state.gameOverText.texts.map((text, index) =>{
+      index === levelLength  ? this.state.gameOverText.toggleSelected(index) : this.state.gameOverText.toggleUnselected(index);
+    });
+  }
+
+  takeIndex(){
+    let iterator = this.level-1;
+    let index = this.option;
+    while ( iterator >= 0 ){
+      index += this.levels['level'+iterator];
+      iterator--;
+    }
+    return index;
+  }
+
+  selectorOptions(){
+    if (this.state.keyCodes.selector.isDown && this.time<this.state.time.now){
+      this.whatOption();
+      this.time = this.setDelay(this.delay);
+    }
+  }
+
+  whatOption(){
+    if ( this.level === 0 && this.option === 0 )this.startGame();
+    else if ( this.level === 0 && this.option === 1 )this.startMenuState();
+  }
+
+  startGame() {
+    this.state.state.start('Game');
+  }
+
+  startMenuState() {
+    this.state.state.start('Menu');
+  }
+
 }
 
-function displayGameOverNavigate() {
-  if(gameOverState.cursors.down.isDown && gameOverState.timeMenu<gameOverState.time.now){
-      gameOverState.timeMenu = gameOverState.time.now + 200;
-      console.log(gameOverState.menuGameOverOption);
-      downGameOverMenu();
-      styleGameOverOptions();
-  }
-  if(gameOverState.cursors.up.isDown && gameOverState.timeMenu<gameOverState.time.now){
-      gameOverState.timeMenu = gameOverState.time.now + 200;
-      console.log(gameOverState.menuGameOverOption);
-      upGameOverMenu();
-      styleGameOverOptions();
-  }
-  selectorGameOverOptions();
-}
+export default GameOverNavigate;

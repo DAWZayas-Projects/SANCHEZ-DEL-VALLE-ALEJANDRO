@@ -27,7 +27,7 @@ class Enemies {
 
   addPhysics(enemy){
     enemy.enableBody = true;
-    this.state.physics.p2.enable(enemy, true);
+    this.state.physics.p2.enable(enemy, false);
     enemy.body.setRectangle(40, 50);
   }
 

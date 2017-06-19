@@ -39,16 +39,3 @@ export const SettingTextOptions = () => ({
 export const BackgroundImages = () => (
   [{name: 'pnjBackground', x: -450, y: -175, height: 1.5, width: 1.15}, {name: 'logo', x: 100, y: 25, height: 1, width: 1}]
 );
-
-export const Options = () => ({
-  0: {
-   '-1': 'malditos',
-    0: "this.startGame()",
-    1: "OpenSettings"
-  },
-  1: {
-    0: "fullScreen",
-    1: "sound",
-    2: "back"
-  }
-});

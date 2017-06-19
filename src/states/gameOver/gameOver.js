@@ -1,16 +1,46 @@
-var gameOverState = {
+import Phaser from 'phaser';
+import { STARTLABEL, MENU_START, MENU_OPTION, MENU_LEVEL, TIME,  GameOverText } from './config/GameOverConstants';
+import KeyCodes from './config/KeyCodes';
+import MenuText from '../menu/views/Texts';
+import GameOverNavigate from './controllers/Main'
 
-  create: function() {
-    this.selector = spaceBar();
-    this.cursors = createCursors();
-    this.menuGameOverOption = -1;
-    this.timeMenu = this.time.now + 200;
-    addMainTheme();
-    this.menuGameOverText = addGameOverMenu();
-  },
+class GameOver extends Phaser.State {
+  init () {}
+  preload () {}
 
-  update:function(){
-    GameOvernavigate();
+  create () {
+    //keycodes
+    this.keyCodes = new KeyCodes(this);
+
+    //background
+    this.stage.backgroundColor = '#000000'
+
+    //texts
+    this.gameOverText = new  MenuText({
+      state: this,
+      label: STARTLABEL,
+      texts: GameOverText(),
+      style: { font: '24px Trade Winds', fill: '#ffffff' },
+      selected: '#93051b',
+      unselected: '#ffffff',
+      defaultValue: false
+    });
+    this.gameOverText.setGameOverStyle();
+
+    //navigate
+    this.navigate = new GameOverNavigate({
+      state: this,
+      start: MENU_START,
+      option: MENU_OPTION,
+      menuLevel: MENU_LEVEL,
+      levels: this.gameOverText.levels,
+      delay: TIME
+    });
+
   }
 
-};
+  update() { this.navigate.navigate() }
+
+}
+
+export default GameOver;

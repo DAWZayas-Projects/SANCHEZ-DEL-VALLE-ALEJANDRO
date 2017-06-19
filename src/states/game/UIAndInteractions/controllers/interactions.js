@@ -25,7 +25,22 @@ class Interaction {
         return false;
       }
     }
-    return true;
+    else if(!body1.sprite){
+      if (this.isWorld(body1)) {  return true }
+    }
+    else if(!body2.sprite){
+      if (this.isWorld(body2)) { return true }
+    }
+    return false;
+  }
+
+
+  isWorld(body){
+      let world = false;
+    this.state.world.collision.map((collision) => {
+      if(collision === body)world = true;
+    });
+    return world
   }
 
   hitScan(body1, body2){
@@ -91,9 +106,13 @@ class Interaction {
         this.HpDown(this.hpPlayer);
         this.state.playerMovement.timers.hit = this.state.time.now + 1500;
       }else{
-        //game.state.start('gameOver');
+        this.state.state.start('GameOver');
       }
     }
+  }
+
+  playerInWorld(){
+    if (!this.state.player.sprite.inWorld) { this.state.state.start('GameOver') }
   }
 
   whatAnimationEnemy(body){

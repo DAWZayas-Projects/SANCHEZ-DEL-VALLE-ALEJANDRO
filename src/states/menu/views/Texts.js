@@ -65,6 +65,19 @@ class MenuText {
     this.label.cameraOffset.setTo(game.camera.width/2, 150);
   }
 
+  setGameOverStyle(){
+    let y = 200;
+    this.texts.map((text) => {
+      text.anchor.setTo(0.5, 0.5);
+      text.fixedToCamera = true;
+      text.cameraOffset.setTo(game.camera.width/2, y);
+      y += 50;
+    });
+    this.label.anchor.setTo(0.5, 0.5);
+    this.label.fixedToCamera = true;
+    this.label.cameraOffset.setTo(game.camera.width/2, 150);
+  }
+
   visible(){
     this.texts.map((text) => {
       text.alpha = 1;

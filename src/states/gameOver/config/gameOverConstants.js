@@ -1,24 +1,10 @@
+export const MENU_START = 0;
+export const MENU_OPTION = -1;
+export const MENU_LEVEL = 0;
+export const STARTLABEL = { text: "Game Over", x: 600, y: 620 };
+export const TIME = 200;
 
-function getGameOverMenuText(){
-  return {
-    newGame: {title: "New Game", x: 20, y: 220},
-    exit: {title: "Exit", x: 50, y: 70}
-  };
-
-}
-
-function spaceBar() {
-  return game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-}
-
-function createCursors(){
-  return game.input.keyboard.createCursorKeys();
-}
-
-function getMenuGameOverMax() {
-  return 2;
-}
-
-function getMenuStart() {
-  return 0;
-}
+export const GameOverText = () => ([{
+  newGame: {title: "New Game", x: 20, y: 220},
+  exit: {title: "Exit", x: 50, y: 70}
+}]);

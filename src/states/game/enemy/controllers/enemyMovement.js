@@ -17,7 +17,6 @@ class EnemyMovement {
   controlMovement(){
     this.enemies.children.map( (enemy) => {
       if(this.touchingDown(enemy)) {
-        if(enemy.z == 0)console.log(this.isHit(enemy.z));
         if(this.isHit(enemy.z))this.enemyAttackAction(enemy.z);
         if(this.canMove(enemy.z))this.selectMovement(enemy.z);
       }
