@@ -1,26 +1,10 @@
+export const MENU_START = 0;
+export const MENU_OPTION = -1;
+export const MENU_LEVEL = 0;
+export const TIME = 200;
+export const STARTLABEL = { text: "Pause", x: 600, y: 620 };
 
-function getMenuPauseText(){
-  return {
-    resume: {title: "Resume", x: 20, y: 130},
-    exit: {title: "Exit", x: 50, y: 80}
-  };
-}
-
-function getMenuPauseMax() {
-  return 1;
-}
-
-function getMenuStart() {
-  return 0;
-}
-
-
-function getPauseMenuActions(){
-  return {
-    activate: game.input.keyboard.addKey(Phaser.Keyboard.TAB),
-  };
-}
-
-function spaceBar() {
-  return game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-}
+export const PauseText = () => ([{
+  resume: {title: "Resume", x: 20, y: 130},
+  exit: {title: "Exit", x: 50, y: 80}
+}]);

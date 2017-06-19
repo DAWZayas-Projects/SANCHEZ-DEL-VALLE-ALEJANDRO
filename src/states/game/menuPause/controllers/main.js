@@ -1,47 +1,97 @@
+class PauseNavigate {
+  constructor ({ state, start, option, menuLevel, levels, delay }) {
+    this.state = state;
 
- function pauseMenu(){
-  if(playState.pauseMenuButton.activate.isDown)changePause();
+    //config
+    this.start = start;
+    this.option = option;
+    this.levels = levels
+    this.level = menuLevel;
+    this.time = this.setDelay(delay);
+    this.delay = delay;
+
+  }
+
+  setDelay(delay){ return this.state.time.now + delay }
+
+  pauseMenu(){ if(this.state.activate.isDown && this.time<this.state.time.now)this.changePause() }
+
+ changePause(){ game.paused == true ? this.menuUnpause() : this.menuPause() }
+
+ menuPause(){
+   this.time = this.state.time.now + 200;
+   game.paused = true;
+   this.state.menuPause.visible();
+   this.state.activate.onDown.addOnce(this.changePause, this);
+   this.state.cursors.down.onDown.add(this.displayDownMenuPauseNavigate, this);
+   this.state.cursors.up.onDown.add(this.displayUpMenuPauseNavigate, this);
+   this.state.selector.onDown.add(this.selectorOptions, this);
  }
 
-function changePause(){
-  game.paused == true ? menuUnpause() : menuPause();
+ menuUnpause(){
+   this.time = this.state.time.now + 200;
+   this.state.activate.onDown.remove(this.changePause, this);
+   this.state.cursors.down.onDown.remove(this.displayDownMenuPauseNavigate, this);
+   this.state.cursors.up.onDown.remove(this.displayUpMenuPauseNavigate, this);
+   this.state.selector.onDown.remove(this.selectorOptions, this);
+   this.state.menuPause.invisible();
+   game.paused = false;
+ }
+
+ displayUpMenuPauseNavigate(){
+   if(this.time<this.state.time.now){
+     this.time = this.state.time.now + 200;
+     this.upMenu();
+     this.styleOptions();
+   }
+ }
+
+ displayDownMenuPauseNavigate(){
+   if(this.time<this.state.time.now){
+     this.time = this.state.time.now + 200;
+     this.downMenu();
+     this.styleOptions();
+   }
+ }
+
+ downMenu(){ this.option >= this.levels["level"+this.level]-1 ? this.option = this.start : this.option++ }
+
+ upMenu(){ this.option <= this.start ? this.option = this.levels["level"+this.level]-1 : this.option-- }
+
+ styleOptions(){
+   let levelLength = this.takeIndex();
+   this.state.menuPause.texts.map((text, index) =>{
+     index === levelLength  ? this.state.menuPause.toggleSelected(index) : this.state.menuPause.toggleUnselected(index);
+   });
+ }
+
+ takeIndex(){
+   let iterator = this.level-1;
+   let index = this.option;
+   while ( iterator >= 0 ){
+     index += this.levels['level'+iterator];
+     iterator--;
+   }
+   return index;
+ }
+
+ selectorOptions(){
+   if (this.state.selector.isDown && this.time<this.state.time.now){
+     this.whatOption();
+     this.time = this.setDelay(this.delay);
+   }
+ }
+
+ whatOption(){
+   if ( this.level === 0 && this.option === 0 )this.menuUnpause();
+   else if ( this.level === 0 && this.option === 1 )this.unPauseAndstartMenuState();
+ }
+
+ unPauseAndstartMenuState() {
+   this.menuUnpause();
+   this.state.state.start('Menu');
+ }
+
 }
 
-function menuPause(){
-    game.paused = true;
-    pauseLabel = addPauseLabel();
-    menuPauseTexts = setPauseTexts();
-    setAnchorAndCameraTexts(menuPauseTexts);
-    playState.pauseMenuButton.activate.onDown.addOnce(changePause, this);
-    playState.cursors.down.onDown.add(displayDownMenuPauseNavigate, this);
-    playState.cursors.up.onDown.add(displayUpMenuPauseNavigate, this);
-    playState.selector.onDown.add(selectorMenuPauseOptions, this);
-}
-
-function menuUnpause(){
-  playState.pauseMenuButton.activate.onDown.remove(changePause, this);
-  playState.cursors.down.onDown.remove(displayDownMenuPauseNavigate, this);
-  playState.cursors.up.onDown.remove(displayUpMenuPauseNavigate, this);
-  playState.selector.onDown.remove(selectorMenuPauseOptions, this);
-  pauseLabel.destroy();
-  menuPauseTexts.map((text) => {
-    text.destroy();
-  });
-  game.paused = false;
-}
-
-function displayUpMenuPauseNavigate(){
-  if(playState.timeMenuPause<playState.time.now){
-    playState.timeMenu = playState.time.now + 200;
-    moveUpPauseMenu();
-    styleMenuPauseOptions();
-  }
-}
-
-function displayDownMenuPauseNavigate(){
-  if(playState.timeMenuPause<playState.time.now){
-    playState.timeMenu = playState.time.now + 200;
-    moveDownPauseMenu();
-    styleMenuPauseOptions();
-  }
-}
+export default PauseNavigate;

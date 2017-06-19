@@ -17,6 +17,7 @@ class EnemyMovement {
   controlMovement(){
     this.enemies.children.map( (enemy) => {
       if(this.touchingDown(enemy)) {
+        if(enemy.z == 0)console.log(this.isHit(enemy.z));
         if(this.isHit(enemy.z))this.enemyAttackAction(enemy.z);
         if(this.canMove(enemy.z))this.selectMovement(enemy.z);
       }
@@ -24,8 +25,8 @@ class EnemyMovement {
   }
 
   canMove(index){
-    return ((this.state.player.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.x - this.enemies.getChildAt(index).x <= 0)
-   || (this.enemies.getChildAt(index).x - this.state.player.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)) ? false : true;
+    return ((this.state.player.sprite.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.sprite.x - this.enemies.getChildAt(index).x <= 0)
+   || (this.enemies.getChildAt(index).x - this.state.player.sprite.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.sprite.x <= 0)) ? false : true;
   }
 
   isHit(index){
@@ -36,8 +37,8 @@ class EnemyMovement {
   //movement
   selectMovement(index){
     const COORDENATE = this.coordenate[index].x;
-    if(this.state.player.x - this.enemies.getChildAt(index).x >= -150 && this.state.player.x - this.enemies.getChildAt(index).x <= 0 )this.movement[index] = 'left';
-    else if(this.enemies.getChildAt(index).x - this.state.player.x >= -150 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)this.movement[index] = 'right';
+    if(this.state.player.sprite.x - this.enemies.getChildAt(index).x >= -150 && this.state.player.sprite.x - this.enemies.getChildAt(index).x <= 0 )this.movement[index] = 'left';
+    else if(this.enemies.getChildAt(index).x - this.state.player.sprite.x >= -150 && this.enemies.getChildAt(index).x - this.state.player.sprite.x <= 0)this.movement[index] = 'right';
     else {
       if((COORDENATE  + 50) - this.enemies.getChildAt(index).x <= 1 )this.movement[index] = 'left';
       if(this.enemies.getChildAt(index).x - (COORDENATE -50) <= 1 )this.movement[index] = 'right';
@@ -82,8 +83,8 @@ class EnemyMovement {
   }
 
   canAttack(index){
-   return ( (this.state.player.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.x - this.enemies.getChildAt(index).x <= 0)
-   || (this.enemies.getChildAt(index).x - this.state.player.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.x <= 0)) && this.timers.attack<= this.state.time.now
+   return ( (this.state.player.sprite.x - this.enemies.getChildAt(index).x >= -100 && this.state.player.sprite.x - this.enemies.getChildAt(index).x <= 0)
+   || (this.enemies.getChildAt(index).x - this.state.player.sprite.x >= -100 && this.enemies.getChildAt(index).x - this.state.player.sprite.x <= 0)) && this.timers.attack<= this.state.time.now
    ? true : false;
   }
 

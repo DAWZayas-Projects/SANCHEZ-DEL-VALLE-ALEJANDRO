@@ -12,6 +12,14 @@ import Enemies from './enemy/views/Enemies';
 import EnemyMovement from './enemy/controllers/EnemyMovement';
 import { EnemyAnimations, EnemyTimers, Movement, Coordenate } from './enemy/config/EnemyConstants';
 
+import MenuText from '../menu/views/Texts';
+import PauseNavigate from './menuPause/controllers/Main'
+import { TIME, MENU_START, MENU_OPTION, MENU_LEVEL, STARTLABEL, PauseText } from './menuPause/config/MenuPauseConstants'
+import { Activate, SpaceBar } from './menuPause/config/MenuPauseKeyCodes'
+
+import UserInterface from './UIAndInteractions/views/UserInterface';
+import Interaction from './UIAndInteractions/controllers/Interactions';
+import { Hearts, HpPlayer, HpEnemies } from './UIAndInteractions/config/UIConstants';
 
 class Game extends Phaser.State {
   init () {}
@@ -20,6 +28,8 @@ class Game extends Phaser.State {
   create () {
     //Keycodes
     this.cursors = Cursors(this);
+    this.selector = SpaceBar(this);
+    this.activate = Activate(this);
 
     //world
     this.world = new World({
@@ -60,26 +70,46 @@ class Game extends Phaser.State {
       timers: EnemyTimers()
     });
 
-/*
-    this.pauseMenuButton = getPauseMenuActions();
-    this.hpPlayer = getHpPlayer();
-    this.hpEnemies = getHpEnemies();
-    this.selector = spaceBar();
-    this.timeMenuPause = this.time.now + 200;
-    this.menuPauseOption = -1;
+  //menuPause
+    this.menuPause = new  MenuText({
+      state: this,
+      label: STARTLABEL,
+      texts: PauseText(),
+      style: { font: '24px Trade Winds', fill: '#ffffff' },
+      selected: '#93051b',
+      unselected: '#ffffff',
+      defaultValue: false
+    });
+    this.menuPause.setPauseStyle();
 
+    this.navigate = new PauseNavigate({
+      state: this,
+      start: MENU_START,
+      option: MENU_OPTION,
+      menuLevel: MENU_LEVEL,
+      levels: this.menuPause.levels,
+      delay: TIME
+    });
 
-    this.collisionObject = addCollision();
-    collisionPlayerWithWorld()
+    //UI And Interactions
+    this.userInterface = new UserInterface({
+      state: this,
+      hearts: Hearts(),
+    });
 
-    this.hp = addHp();
-    manualCollideAndOverlap();
-*/
+    this.interaction = new Interaction({
+      state: this,
+      player: this.player.sprite,
+      enemies: this.enemies.enemies,
+      hpEnemies: HpEnemies(),
+      hpPlayer: HpPlayer,
+    });
+
   }
 
   update () {
     //menuPause
-    //pauseMenu();
+    this.navigate.pauseMenu();
 
     //player
     this.playerMovement.stopPlayer();
